@@ -24,6 +24,19 @@ Open these local demo files after cloning the repository:
 - `findevil/media/evidence-locked-dfir-report-full.png`
 - `shared-agentops-engine/media/shared-dashboard-full.png`
 
+## Demo Video
+
+Draft silent video:
+
+- `findevil/media/evidence-locked-dfir-agent-demo-draft.mp4`
+
+Regenerate:
+
+```bash
+cd findevil
+bash scripts/build_demo_video.sh
+```
+
 ## Inspiration
 
 AI can help defenders move faster, but fast summaries are dangerous when they outrun the evidence.
@@ -78,6 +91,7 @@ python3 scripts/verify_artifacts.py
 ```bash
 cd ../findevil
 python3 scripts/build_dfir_case_report.py
+bash scripts/build_demo_video.sh
 ```
 
 ## Demo Script Summary

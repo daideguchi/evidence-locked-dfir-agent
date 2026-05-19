@@ -10,6 +10,12 @@ Submission package: [SUBMISSION_PACKAGE.md](SUBMISSION_PACKAGE.md)
 
 ![Evidence-Locked DFIR Agent report](findevil/media/evidence-locked-dfir-report-full.png)
 
+Draft demo video:
+
+```text
+findevil/media/evidence-locked-dfir-agent-demo-draft.mp4
+```
+
 Open locally:
 
 - `findevil/prototype/evidence-locked-dfir-report.html`
@@ -34,6 +40,7 @@ python3 scripts/verify_artifacts.py
 ```bash
 cd ../findevil
 python3 scripts/build_dfir_case_report.py
+bash scripts/build_demo_video.sh
 ```
 
 Expected proof:
