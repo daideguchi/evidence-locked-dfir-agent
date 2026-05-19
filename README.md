@@ -4,6 +4,8 @@ Evidence-Locked DFIR Agent is a defensive investigation workflow for FIND EVIL.
 
 The product idea is simple: AI can help incident responders move faster, but every claim must stay tied to evidence. Unsupported certainty is treated as a risk, not as a result.
 
+Submission package: [SUBMISSION_PACKAGE.md](SUBMISSION_PACKAGE.md)
+
 ## Demo
 
 ![Evidence-Locked DFIR Agent report](findevil/media/evidence-locked-dfir-report-full.png)
