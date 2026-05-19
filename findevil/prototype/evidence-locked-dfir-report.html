@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evidence-Locked DFIR Agent — FIND EVIL Demo</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --surface: #fff;
+      --ink: #182230;
+      --muted: #667085;
+      --line: #d8e0e8;
+      --brand: #264a8a;
+      --brand-soft: #eaf0fb;
+      --ok: #087443;
+      --ok-soft: #e8f6ef;
+      --warn: #b54708;
+      --warn-soft: #fff3df;
+      --danger: #b42318;
+      --danger-soft: #ffebe9;
+      --shadow: 0 16px 36px rgba(24, 34, 48, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 18px 48px;
+    }
+
+    .locator {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .hero {
+      background: #172033;
+      color: #fff;
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.7fr);
+      gap: 24px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+
+    p { margin: 0; }
+
+    .hero-copy {
+      margin-top: 14px;
+      color: #d7e0ee;
+      font-size: 16px;
+      max-width: 760px;
+    }
+
+    .finding-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .finding-card strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .metric,
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(24, 34, 48, 0.04);
+    }
+
+    .metric {
+      padding: 16px;
+      min-height: 108px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section {
+      margin-top: 22px;
+      padding: 20px;
+    }
+
+    .hypothesis-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .hypothesis {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: #fff;
+    }
+
+    .hypothesis.supported { border-color: #a9dec5; background: #f8fdf9; }
+    .hypothesis.unsupported { border-color: #f2aaa4; background: #fff7f6; }
+    .hypothesis.human { border-color: #b8c9ea; background: #f7f9fe; }
+
+    .status {
+      display: inline-flex;
+      width: fit-content;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .status.supported { color: var(--ok); background: var(--ok-soft); }
+    .status.unsupported { color: var(--danger); background: var(--danger-soft); }
+    .status.human { color: var(--brand); background: var(--brand-soft); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th {
+      text-align: left;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--line);
+      padding: 10px 8px;
+    }
+
+    td {
+      border-bottom: 1px solid var(--line);
+      padding: 12px 8px;
+      vertical-align: top;
+    }
+
+    .event-id {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .risk-pill {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      min-height: 24px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .risk-pill.danger { color: var(--danger); background: var(--danger-soft); }
+    .risk-pill.warn { color: var(--warn); background: var(--warn-soft); }
+    .risk-pill.ok { color: var(--ok); background: var(--ok-soft); }
+    .risk-pill.quiet { color: var(--muted); background: #edf1f4; }
+
+    .timeline {
+      display: grid;
+      gap: 10px;
+    }
+
+    .timeline-row {
+      display: grid;
+      grid-template-columns: 210px minmax(0, 1fr) 92px;
+      gap: 14px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .timeline-main {
+      display: grid;
+      gap: 4px;
+    }
+
+    .timeline-main span,
+    .timeline-main p,
+    .subtle {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 920px) {
+      .hero,
+      .metrics,
+      .hypothesis-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      main { padding: 16px 12px 32px; }
+      h1 { font-size: 27px; }
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="locator">FIND EVIL! · Evidence-Locked DFIR Agent · Demo Artifact</div>
+
+    <section class="hero">
+      <div>
+        <h1>AI can move fast in DFIR, but every claim must stay tied to evidence.</h1>
+        <p class="hero-copy">
+          This report shows an AI-assisted suspicious email investigation where the agent flags its own unsupported malware-execution claim,
+          redacts low-confidence indicator output, and leaves the final containment decision to a human analyst.
+        </p>
+      </div>
+      <aside class="finding-card">
+        <strong>Critical guardrail</strong>
+        <p>Unsupported endpoint malware execution is marked as not proven instead of being promoted into the final finding.</p>
+      </aside>
+    </section>
+
+    <section class="metrics">
+      <div class="metric"><strong>8</strong><span>evidence events in this DFIR case</span></div>
+      <div class="metric"><strong>1</strong><span>AI self-correction guardrail event</span></div>
+      <div class="metric"><strong>1</strong><span>redacted low-confidence indicator</span></div>
+      <div class="metric"><strong>1</strong><span>human containment approval</span></div>
+    </section>
+
+    <section class="section">
+      <h2>Hypotheses And Status</h2>
+      <div class="hypothesis-grid">
+        <article class="hypothesis supported">
+          <span class="status supported">Supported</span>
+          <h3>Suspicious email / phishing attempt</h3>
+          <p>Supported at low-to-medium confidence by collected artifacts and hash lookup.</p>
+          <p><span class="event-id">evt-0014</span> <span class="event-id">evt-0017</span></p>
+        </article>
+        <article class="hypothesis unsupported">
+          <span class="status unsupported">Not supported</span>
+          <h3>Endpoint malware execution</h3>
+          <p>The agent flagged this as unsupported because process evidence was missing.</p>
+          <p><span class="event-id">evt-0015</span> <span class="event-id">evt-0016</span></p>
+        </article>
+        <article class="hypothesis human">
+          <span class="status human">Human decision</span>
+          <h3>Mailbox-only containment</h3>
+          <p>Human analyst approved message containment and did not approve endpoint isolation.</p>
+          <p><span class="event-id">evt-0018</span></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Evidence Chain</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Phase</th>
+            <th>Actor</th>
+            <th>Evidence Summary</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><span class="event-id">evt-0012</span></td>
+          <td>intake</td>
+          <td>security-analyst</td>
+          <td>Security analyst opened a suspicious email investigation with attached endpoint telemetry.</td>
+        </tr>
+        
+
+        <tr>
+          <td><span class="event-id">evt-0013</span></td>
+          <td>planning</td>
+          <td>dfir-analysis-agent</td>
+          <td>Agent proposed an evidence-first DFIR plan: preserve artifacts, list hypotheses, then verify each claim.</td>
+        </tr>
+        
+
+        <tr>
+          <td><span class="event-id">evt-0014</span></td>
+          <td>evidence_collection</td>
+          <td>sift-collector</td>
+          <td>Collected email headers, attachment hash, browser download timeline, and endpoint process list.</td>
+        </tr>
+        
+
+        <tr>
+          <td><span class="event-id">evt-0015</span></td>
+          <td>investigation</td>
+          <td>dfir-analysis-agent</td>
+          <td>Agent generated an initial hypothesis but flagged one claim as unsupported by current evidence.</td>
+        </tr>
+        
+
+        <tr>
+          <td><span class="event-id">evt-0016</span></td>
+          <td>risk_review</td>
+          <td>dfir-analysis-agent</td>
+          <td>System marked the draft finding as provisional because execution evidence was missing.</td>
+        </tr>
+        
+
+        <tr>
+          <td><span class="event-id">evt-0017</span></td>
+          <td>evidence_collection</td>
+          <td>threat-intel-api</td>
+          <td>Hash lookup returned low-confidence phishing kit association; raw indicator was redacted in report output.</td>
+        </tr>
+        
+
+        <tr>
+          <td><span class="event-id">evt-0018</span></td>
+          <td>approval</td>
+          <td>security-analyst</td>
+          <td>Human approved containment of the reported message and requested no endpoint isolation.</td>
+        </tr>
+        
+
+        <tr>
+          <td><span class="event-id">evt-0019</span></td>
+          <td>handoff</td>
+          <td>agentops-recorder</td>
+          <td>Generated DFIR report with evidence IDs, unsupported claims, and human containment decision.</td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>Guardrails</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Risk</th>
+            <th>Reason</th>
+            <th>Decision</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><span class="event-id">evt-0015</span></td>
+          <td><span class="risk-pill warn">medium</span></td>
+          <td>Initial model answer overclaimed malware execution before process evidence was present.</td>
+          <td>none</td>
+        </tr>
+        
+
+        <tr>
+          <td><span class="event-id">evt-0016</span></td>
+          <td><span class="risk-pill danger">high</span></td>
+          <td>Unsupported certainty detected in analyst draft.</td>
+          <td>none</td>
+        </tr>
+        
+
+        <tr>
+          <td><span class="event-id">evt-0017</span></td>
+          <td><span class="risk-pill warn">medium</span></td>
+          <td>human approval / redaction guardrail</td>
+          <td>none</td>
+        </tr>
+        
+
+        <tr>
+          <td><span class="event-id">evt-0018</span></td>
+          <td><span class="risk-pill ok">low</span></td>
+          <td>human approval / redaction guardrail</td>
+          <td>approved</td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>Timeline</h2>
+      <div class="timeline">
+        <article class="timeline-row">
+          <div>
+            <span class="event-id">evt-0012</span>
+            <span class="subtle">2026-05-19T12:08:12Z</span>
+          </div>
+          <div class="timeline-main">
+            <strong>task_start</strong>
+            <span>human / security-analyst</span>
+            <p>Security analyst opened a suspicious email investigation with attached endpoint telemetry.</p>
+          </div>
+          <span class="risk-pill quiet">none</span>
+        </article>
+        
+
+        <article class="timeline-row">
+          <div>
+            <span class="event-id">evt-0013</span>
+            <span class="subtle">2026-05-19T12:08:53Z</span>
+          </div>
+          <div class="timeline-main">
+            <strong>plan_update</strong>
+            <span>ai_agent / dfir-analysis-agent</span>
+            <p>Agent proposed an evidence-first DFIR plan: preserve artifacts, list hypotheses, then verify each claim.</p>
+          </div>
+          <span class="risk-pill ok">low</span>
+        </article>
+        
+
+        <article class="timeline-row">
+          <div>
+            <span class="event-id">evt-0014</span>
+            <span class="subtle">2026-05-19T12:09:34Z</span>
+          </div>
+          <div class="timeline-main">
+            <strong>evidence_captured</strong>
+            <span>robot / sift-collector</span>
+            <p>Collected email headers, attachment hash, browser download timeline, and endpoint process list.</p>
+          </div>
+          <span class="risk-pill ok">low</span>
+        </article>
+        
+
+        <article class="timeline-row">
+          <div>
+            <span class="event-id">evt-0015</span>
+            <span class="subtle">2026-05-19T12:10:15Z</span>
+          </div>
+          <div class="timeline-main">
+            <strong>ai_call</strong>
+            <span>ai_agent / dfir-analysis-agent</span>
+            <p>Agent generated an initial hypothesis but flagged one claim as unsupported by current evidence.</p>
+          </div>
+          <span class="risk-pill warn">medium</span>
+        </article>
+        
+
+        <article class="timeline-row">
+          <div>
+            <span class="event-id">evt-0016</span>
+            <span class="subtle">2026-05-19T12:10:56Z</span>
+          </div>
+          <div class="timeline-main">
+            <strong>risk_signal</strong>
+            <span>ai_agent / dfir-analysis-agent</span>
+            <p>System marked the draft finding as provisional because execution evidence was missing.</p>
+          </div>
+          <span class="risk-pill danger">high</span>
+        </article>
+        
+
+        <article class="timeline-row">
+          <div>
+            <span class="event-id">evt-0017</span>
+            <span class="subtle">2026-05-19T12:11:37Z</span>
+          </div>
+          <div class="timeline-main">
+            <strong>api_call</strong>
+            <span>api / threat-intel-api</span>
+            <p>Hash lookup returned low-confidence phishing kit association; raw indicator was redacted in report output.</p>
+          </div>
+          <span class="risk-pill warn">medium</span>
+        </article>
+        
+
+        <article class="timeline-row">
+          <div>
+            <span class="event-id">evt-0018</span>
+            <span class="subtle">2026-05-19T12:12:18Z</span>
+          </div>
+          <div class="timeline-main">
+            <strong>approval_gate</strong>
+            <span>human / security-analyst</span>
+            <p>Human approved containment of the reported message and requested no endpoint isolation.</p>
+          </div>
+          <span class="risk-pill ok">low</span>
+        </article>
+        
+
+        <article class="timeline-row">
+          <div>
+            <span class="event-id">evt-0019</span>
+            <span class="subtle">2026-05-19T12:12:59Z</span>
+          </div>
+          <div class="timeline-main">
+            <strong>handoff_report</strong>
+            <span>system / agentops-recorder</span>
+            <p>Generated DFIR report with evidence IDs, unsupported claims, and human containment decision.</p>
+          </div>
+          <span class="risk-pill quiet">none</span>
+        </article>
+        </div>
+    </section>
+  </main>
+</body>
+</html>

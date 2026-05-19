@@ -1,0 +1,198 @@
+{
+  "case_id": "CASE-DFIR-002",
+  "product": "Evidence-Locked DFIR Agent",
+  "source_events": "shared-agentops-engine/data/agentops_events.jsonl",
+  "source_report": "shared-agentops-engine/adapters/findevil/dfir_report.md",
+  "verified_facts": [
+    "Suspicious email investigation was opened by a human analyst.",
+    "Artifacts were collected from email headers, attachment hash, browser timeline, and endpoint process list.",
+    "The AI agent marked malware execution as unsupported by current evidence.",
+    "Human containment approval was mailbox-only."
+  ],
+  "unsupported_claims": [
+    {
+      "claim": "Malware executed on the endpoint.",
+      "status": "not_supported_by_current_evidence",
+      "evidence": [
+        "evt-0015",
+        "evt-0016"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "actor_name": "security-analyst",
+      "actor_type": "human",
+      "case_id": "CASE-DFIR-002",
+      "decision": "none",
+      "event_id": "evt-0012",
+      "event_type": "task_start",
+      "evidence_ref": "evt-0012",
+      "human_approval_required": false,
+      "metadata": {
+        "lane": "findevil",
+        "source": "user_reported_email"
+      },
+      "phase": "intake",
+      "risk_level": "none",
+      "session_id": "session-dfir-phishing-response",
+      "status": "info",
+      "summary": "Security analyst opened a suspicious email investigation with attached endpoint telemetry.",
+      "task_id": "phishing-triage",
+      "timestamp": "2026-05-19T12:08:12Z"
+    },
+    {
+      "actor_name": "dfir-analysis-agent",
+      "actor_type": "ai_agent",
+      "case_id": "CASE-DFIR-002",
+      "decision": "none",
+      "event_id": "evt-0013",
+      "event_type": "plan_update",
+      "evidence_ref": "evt-0013",
+      "human_approval_required": false,
+      "metadata": {
+        "hypotheses": 3
+      },
+      "phase": "planning",
+      "risk_level": "low",
+      "session_id": "session-dfir-phishing-response",
+      "status": "success",
+      "summary": "Agent proposed an evidence-first DFIR plan: preserve artifacts, list hypotheses, then verify each claim.",
+      "task_id": "phishing-triage",
+      "timestamp": "2026-05-19T12:08:53Z"
+    },
+    {
+      "action": "capture_artifacts",
+      "actor_name": "sift-collector",
+      "actor_type": "robot",
+      "case_id": "CASE-DFIR-002",
+      "decision": "none",
+      "duration_ms": 12300,
+      "event_id": "evt-0014",
+      "event_type": "evidence_captured",
+      "evidence_ref": "evt-0014",
+      "human_approval_required": false,
+      "metadata": {
+        "artifacts": "headers,hash,timeline,processes"
+      },
+      "phase": "evidence_collection",
+      "risk_level": "low",
+      "session_id": "session-dfir-phishing-response",
+      "status": "success",
+      "summary": "Collected email headers, attachment hash, browser download timeline, and endpoint process list.",
+      "target": "mailbox and endpoint timeline",
+      "task_id": "phishing-triage",
+      "timestamp": "2026-05-19T12:09:34Z",
+      "tool": "SIFT workstation"
+    },
+    {
+      "action": "classify_evidence",
+      "actor_name": "dfir-analysis-agent",
+      "actor_type": "ai_agent",
+      "case_id": "CASE-DFIR-002",
+      "cost_usd_estimate": 0.012,
+      "decision": "none",
+      "duration_ms": 2210,
+      "event_id": "evt-0015",
+      "event_type": "ai_call",
+      "evidence_ref": "evt-0015",
+      "human_approval_required": false,
+      "phase": "investigation",
+      "risk_level": "medium",
+      "risk_reason": "Initial model answer overclaimed malware execution before process evidence was present.",
+      "session_id": "session-dfir-phishing-response",
+      "status": "warning",
+      "summary": "Agent generated an initial hypothesis but flagged one claim as unsupported by current evidence.",
+      "target": "artifact packet",
+      "task_id": "phishing-triage",
+      "timestamp": "2026-05-19T12:10:15Z",
+      "tool": "LLM"
+    },
+    {
+      "actor_name": "dfir-analysis-agent",
+      "actor_type": "ai_agent",
+      "case_id": "CASE-DFIR-002",
+      "decision": "none",
+      "event_id": "evt-0016",
+      "event_type": "risk_signal",
+      "evidence_ref": "evt-0016",
+      "human_approval_required": false,
+      "metadata": {
+        "self_correction": true
+      },
+      "phase": "risk_review",
+      "risk_level": "high",
+      "risk_reason": "Unsupported certainty detected in analyst draft.",
+      "session_id": "session-dfir-phishing-response",
+      "status": "warning",
+      "summary": "System marked the draft finding as provisional because execution evidence was missing.",
+      "task_id": "phishing-triage",
+      "timestamp": "2026-05-19T12:10:56Z"
+    },
+    {
+      "action": "lookup_hash",
+      "actor_name": "threat-intel-api",
+      "actor_type": "api",
+      "case_id": "CASE-DFIR-002",
+      "decision": "none",
+      "duration_ms": 780,
+      "event_id": "evt-0017",
+      "event_type": "api_call",
+      "evidence_ref": "evt-0017",
+      "human_approval_required": false,
+      "metadata": {
+        "confidence": "low"
+      },
+      "phase": "evidence_collection",
+      "redaction_applied": true,
+      "risk_level": "medium",
+      "session_id": "session-dfir-phishing-response",
+      "status": "success",
+      "summary": "Hash lookup returned low-confidence phishing kit association; raw indicator was redacted in report output.",
+      "target": "sha256:9f2c-redacted",
+      "task_id": "phishing-triage",
+      "timestamp": "2026-05-19T12:11:37Z",
+      "tool": "Threat Intel API"
+    },
+    {
+      "actor_name": "security-analyst",
+      "actor_type": "human",
+      "case_id": "CASE-DFIR-002",
+      "decision": "approved",
+      "event_id": "evt-0018",
+      "event_type": "approval_gate",
+      "evidence_ref": "evt-0018",
+      "human_approval_required": true,
+      "metadata": {
+        "containment": "mailbox_only"
+      },
+      "phase": "approval",
+      "risk_level": "low",
+      "session_id": "session-dfir-phishing-response",
+      "status": "success",
+      "summary": "Human approved containment of the reported message and requested no endpoint isolation.",
+      "task_id": "phishing-triage",
+      "timestamp": "2026-05-19T12:12:18Z"
+    },
+    {
+      "actor_name": "agentops-recorder",
+      "actor_type": "system",
+      "case_id": "CASE-DFIR-002",
+      "decision": "none",
+      "event_id": "evt-0019",
+      "event_type": "handoff_report",
+      "evidence_ref": "evt-0019",
+      "human_approval_required": false,
+      "metadata": {
+        "report_type": "dfir"
+      },
+      "phase": "handoff",
+      "risk_level": "none",
+      "session_id": "session-dfir-phishing-response",
+      "status": "success",
+      "summary": "Generated DFIR report with evidence IDs, unsupported claims, and human containment decision.",
+      "task_id": "phishing-triage",
+      "timestamp": "2026-05-19T12:12:59Z"
+    }
+  ]
+}
