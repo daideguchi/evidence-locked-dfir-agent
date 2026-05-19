@@ -6,6 +6,8 @@ The product idea is simple: AI can help incident responders move faster, but eve
 
 Submission package: [SUBMISSION_PACKAGE.md](SUBMISSION_PACKAGE.md)
 
+Live demo: https://daideguchi.github.io/evidence-locked-dfir-agent/
+
 ## Demo
 
 ![Evidence-Locked DFIR Agent report](findevil/media/evidence-locked-dfir-report-full.png)
@@ -20,6 +22,10 @@ Open locally:
 
 - `findevil/prototype/evidence-locked-dfir-report.html`
 - `shared-agentops-engine/web/index.html`
+
+Open in browser:
+
+- https://daideguchi.github.io/evidence-locked-dfir-agent/
 
 ## What It Shows
 
