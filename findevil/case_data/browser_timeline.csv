@@ -1,0 +1,3 @@
+evidence_id,timestamp,user,event,url_or_path,notes
+ev-browser-001,2026-05-19T12:06:02Z,analyst-user,download_started,https://example-payroll.invalid/forms/Direct_Deposit_Update.docm,download prompted from email link
+ev-browser-002,2026-05-19T12:06:17Z,analyst-user,file_saved,/Users/analyst-user/Downloads/Direct_Deposit_Update.docm,no execution event in browser timeline

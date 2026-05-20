@@ -1,74 +1,98 @@
 # Evidence-Locked DFIR Agent
 
-Evidence-Locked DFIR Agent is a defensive investigation workflow for FIND EVIL.
-
-The product idea is simple: AI can help incident responders move faster, but every claim must stay tied to evidence. Unsupported certainty is treated as a risk, not as a result.
-
-Submission package: [SUBMISSION_PACKAGE.md](SUBMISSION_PACKAGE.md)
+AI-assisted incident response where every claim must cite evidence and unsupported certainty is treated as a risk.
 
 Live demo: https://daideguchi.github.io/evidence-locked-dfir-agent/
 
+Submission package: [SUBMISSION_PACKAGE.md](SUBMISSION_PACKAGE.md)
+
+Architecture: [ARCHITECTURE.md](ARCHITECTURE.md)
+
+## Judge Quick Read
+
+**Who is this for?** Security analysts and incident responders.
+
+**What problem does it solve?** AI can summarize a security incident quickly, but a fast confident summary is dangerous if it is not tied to artifacts.
+
+**How does it solve it?** The agent parses a packaged suspicious-email case, creates claims, attaches evidence IDs, blocks unsupported malware-execution certainty, writes a report, scores itself against ground truth, and leaves containment behind a human approval gate.
+
+**What is verified?** A local terminal run, evidence packet, analyst report, accuracy report, execution log, GitHub Pages demo, and narrated demo video.
+
 ## Demo
+
+![Architecture diagram](architecture-diagram.svg)
 
 ![Evidence-Locked DFIR Agent report](findevil/media/evidence-locked-dfir-report-full.png)
 
-Draft demo video:
+![Terminal proof](findevil/media/evidence-locked-terminal-session-full.png)
+
+Demo video:
 
 ```text
-findevil/media/evidence-locked-dfir-agent-demo-draft.mp4
+findevil/media/evidence-locked-dfir-agent-demo.mp4
 ```
-
-Open locally:
-
-- `findevil/prototype/evidence-locked-dfir-report.html`
-- `shared-agentops-engine/web/index.html`
 
 Open in browser:
 
 - https://daideguchi.github.io/evidence-locked-dfir-agent/
-
-## What It Shows
-
-- A sanitized investigation timeline
-- Evidence references for each claim
-- Guardrails for unsupported hypotheses
-- Redaction events for sensitive values
-- Human approval before containment
+- https://daideguchi.github.io/evidence-locked-dfir-agent/findevil/prototype/evidence-locked-dfir-report.html
+- https://daideguchi.github.io/evidence-locked-dfir-agent/findevil/prototype/terminal-session.html
 
 ## Run Locally
 
 ```bash
-cd shared-agentops-engine
-python3 scripts/generate_portfolio_artifacts.py
-python3 scripts/verify_artifacts.py
-```
-
-```bash
-cd ../findevil
-python3 scripts/build_dfir_case_report.py
-bash scripts/build_demo_video.sh
+cd /path/to/evidence-locked-dfir-agent
+bash findevil/scripts/run_findevil_local_checks.sh
 ```
 
 Expected proof:
 
 ```text
-verify_ok
-status: ok
+findevil_local_checks_ok
+claims_total=5
+exact_status_accuracy=1.0
+unsupported_claims_blocked=1
+false_confident_supported_claims=0
+claim_boundary=verified_local_sift_ready_no_live_sift_execution_claim
 ```
+
+Run only the terminal agent:
+
+```bash
+python3 findevil/scripts/run_evidence_locked_agent.py
+```
+
+## What It Shows
+
+- A terminal-executable DFIR workflow against inspectable case files.
+- Evidence references for every supported claim.
+- A malware-execution hypothesis being downgraded because current evidence does not prove it.
+- Redaction and human approval gates that stay visible.
+- An accuracy report comparing the agent output with packaged ground truth.
+- A submission boundary that avoids claiming live SIFT execution before it is verified.
+
+## Key Files
+
+- `findevil/case_data/` - sanitized suspicious-email case packet.
+- `findevil/scripts/run_evidence_locked_agent.py` - terminal workflow.
+- `findevil/reports/agent-claims.json` - claim/status/evidence output.
+- `findevil/reports/accuracy-report.md` - score against ground truth.
+- `findevil/reports/evidence-lock-execution-log.jsonl` - replayable execution log.
+- `findevil/prototype/evidence-locked-dfir-report.html` - analyst report.
+- `findevil/prototype/terminal-session.html` - terminal transcript page.
+- `findevil/media/evidence-locked-terminal-session-full.png` - terminal proof screenshot.
+- `ARCHITECTURE.md` - component and data-flow explanation.
 
 ## Hackathon Boundary
 
 Safe claim:
 
-- A local evidence-locked DFIR report, case packet, self-correction event, redaction event, and human approval gate are generated.
+- A local evidence-locked DFIR agent runs against packaged case data and produces evidence-bound claims, an analyst report, accuracy report, execution log, and natural English demo video.
 
 Not claimed yet:
 
-- Live forensic tooling.
-- SIFT execution.
+- Live SANS SIFT execution.
 - Real malware attribution.
+- Automated endpoint isolation.
 
-## Project Layout
-
-- `findevil/` - DFIR-focused prototype, report, screenshot, and Devpost draft
-- `shared-agentops-engine/` - shared event stream, adapters, dashboard, and verifier
+The product is designed so those integrations can be added without changing the core rule: evidence controls the conclusion.

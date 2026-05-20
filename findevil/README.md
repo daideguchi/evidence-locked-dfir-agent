@@ -4,22 +4,7 @@ Target: FIND EVIL!
 
 URL: https://findevil.devpost.com/
 
-Status: Devpost joined. P2 derivative security lane.
-
-Current local proof:
-
-- Evidence-locked DFIR report: `prototype/evidence-locked-dfir-report.html`
-- Report screenshot: `media/evidence-locked-dfir-report-full.png`
-- Case packet: `reports/dfir-case-packet.json`
-- Builder: `scripts/build_dfir_case_report.py`
-
-![Evidence-Locked DFIR Agent report](media/evidence-locked-dfir-report-full.png)
-
-## Position
-
-P2 derivative security lane.
-
-This lane should reuse the shared engine, but package it as a defensive investigation workflow.
+Status: P2 security lane, upgraded from static report to terminal-executable local prototype.
 
 ## Product Thesis
 
@@ -27,50 +12,39 @@ AI can help incident responders move faster, but only if every conclusion is tie
 
 Evidence-Locked DFIR Agent helps analysts investigate suspicious activity while forcing every hypothesis, summary, and next action to cite an artifact or event.
 
-## MVP
+## Current Local Proof
 
-- ingest sample forensic artifacts
-- generate investigation timeline
-- detect suspicious pivots
-- produce evidence-cited hypothesis
-- record self-correction when evidence contradicts a hypothesis
-- export analyst report
+- Terminal agent: `scripts/run_evidence_locked_agent.py`
+- Local verifier: `scripts/run_findevil_local_checks.sh`
+- Case data: `case_data/`
+- Analyst report: `prototype/evidence-locked-dfir-report.html`
+- Terminal transcript page: `prototype/terminal-session.html`
+- Case packet: `reports/dfir-case-packet.json`
+- Agent claims: `reports/agent-claims.json`
+- Accuracy report: `reports/accuracy-report.md`
+- Execution log: `reports/evidence-lock-execution-log.jsonl`
+- Demo video: `media/evidence-locked-dfir-agent-demo.mp4`
 
-## Shared Engine Use
+![Evidence-Locked DFIR Agent report](media/evidence-locked-dfir-report-full.png)
 
-Reuse:
-
-- event timeline
-- risk signals
-- approval/handoff events
-- evidence-grounded summary
-
-Adapt:
-
-- evidence_ref becomes artifact ID
-- risk signals become suspicious indicators
-- handoff report becomes analyst report
-
-Current generated artifacts:
-
-- Shared engine: `../shared-agentops-engine/`
-- Canonical events: `../shared-agentops-engine/data/agentops_events.jsonl`
-- DFIR report: `../shared-agentops-engine/adapters/findevil/dfir_report.md`
-- Handoff report: `../shared-agentops-engine/reports/handoff_report.md`
-
-Build the FIND EVIL-focused local demo:
+## Run
 
 ```bash
-cd /Users/dd/000_AI組織/__hackason/findevil
-python3 scripts/build_dfir_case_report.py
+cd /Users/dd/000_AI組織/__hackason/evidence-locked-dfir-agent-public
+bash findevil/scripts/run_findevil_local_checks.sh
 ```
 
 Expected proof:
 
-- builder returns `status: ok`
-- `prototype/evidence-locked-dfir-report.html` exists
-- `reports/dfir-case-packet.json` exists
-- screenshot exists at `media/evidence-locked-dfir-report-full.png`
+```text
+findevil_local_checks_ok
+claims_total=5
+exact_status_accuracy=1.0
+unsupported_claims_blocked=1
+false_confident_supported_claims=0
+```
+
+## Story
 
 The strongest story for this lane is not "AI solves forensics alone."
 
@@ -80,14 +54,14 @@ The story is:
 AI can accelerate an investigation only when every claim is tied to evidence, unsupported certainty is caught, and a human analyst keeps final control.
 ```
 
-## Immediate Next Steps
+## Boundary
 
-1. Confirm SANS/SIFT resources and rules.
-2. Expand the sanitized DFIR sample dataset.
-3. Add screenshots from the evidence report and event dashboard.
-4. Avoid unsupported malware claims unless the evidence packet proves them.
+Safe claim:
 
-Current boundary:
+- A terminal-executable local DFIR workflow runs against packaged sanitized case data and produces evidence-bound claims, a report, accuracy output, and execution logs.
 
-- Safe claim: an evidence-locked DFIR report, self-correction event, redaction event, and human containment approval are generated from the shared event stream.
-- Do not claim: live forensic tooling or SIFT execution until it is actually run and verified.
+Do not claim:
+
+- Live forensic tooling.
+- Live SANS SIFT execution.
+- Real malware attribution.

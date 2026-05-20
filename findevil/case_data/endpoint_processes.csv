@@ -1,0 +1,5 @@
+evidence_id,timestamp,host,user,pid,process_name,parent_process,command_line,notes
+ev-proc-001,2026-05-19T12:05:41Z,workstation-017,analyst-user,618,Mail,launchd,/System/Applications/Mail.app/Contents/MacOS/Mail,mail client active
+ev-proc-002,2026-05-19T12:06:04Z,workstation-017,analyst-user,932,Safari,launchd,/Applications/Safari.app/Contents/MacOS/Safari,email link opened in browser
+ev-proc-003,2026-05-19T12:06:35Z,workstation-017,analyst-user,944,QuickLookUIService,launchd,/System/Library/Frameworks/QuickLook.framework/QuickLookUIService,preview service observed
+ev-proc-004,2026-05-19T12:07:12Z,workstation-017,analyst-user,971,mdworker_shared,launchd,/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker_shared,indexing activity only

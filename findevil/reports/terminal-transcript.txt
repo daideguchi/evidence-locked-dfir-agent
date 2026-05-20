@@ -1,0 +1,28 @@
+$ python3 findevil/scripts/run_evidence_locked_agent.py --case CASE-DFIR-002
+[case] CASE-DFIR-002 suspicious payroll email triage
+[mode] evidence-lock: every supported claim must cite evidence IDs
+[parse] email_headers.txt -> ev-email-001
+[parse] attachment_hashes.csv -> ev-hash-001
+[parse] browser_timeline.csv -> ev-browser-001 ev-browser-002
+[parse] endpoint_processes.csv -> ev-proc-001..ev-proc-004
+
+[claim] claim-phishing-email: supported
+        evidence: ev-email-001, ev-net-002
+        why: Mail authentication failed (spf=fail, dkim=none, dmarc=fail) and domain resolved to the sending host.
+[claim] claim-suspicious-attachment: supported
+        evidence: ev-hash-001
+        why: The attachment hash is present in the training blocklist as a suspicious macro document.
+[claim] claim-browser-download: supported
+        evidence: ev-browser-001
+        why: Browser timeline includes a download_started event for the document URL.
+[claim] claim-malware-executed: not_supported_by_current_evidence
+        evidence: no supporting artifact
+        why: No Word, macro host, shell, or child process execution appears in the endpoint process listing.
+[claim] claim-endpoint-isolation: human_review_required
+        evidence: evt-0018
+        why: The packet supports mailbox containment, but endpoint isolation remains a human decision.
+
+[accuracy] exact_status_accuracy=1.0
+[guardrail] false_confident_supported_claims=0
+[decision] mailbox containment requires human approval; endpoint isolation not approved
+[boundary] verified local prototype; no live SIFT execution claimed

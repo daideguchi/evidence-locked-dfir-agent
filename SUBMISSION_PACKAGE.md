@@ -8,131 +8,133 @@ Evidence-Locked DFIR Agent
 
 AI-assisted incident response where every claim must cite evidence and unsupported certainty is treated as a risk.
 
-## Repository
+## Public Links
 
-https://github.com/daideguchi/evidence-locked-dfir-agent
-
-## Live Demo
-
-https://daideguchi.github.io/evidence-locked-dfir-agent/
-
-## Try It Out
-
-Open the live demo or these local demo files after cloning the repository:
-
-- `findevil/prototype/evidence-locked-dfir-report.html`
-- `shared-agentops-engine/web/index.html`
-
-## Screenshots
-
-- `findevil/media/evidence-locked-dfir-report-full.png`
-- `shared-agentops-engine/media/shared-dashboard-full.png`
+- Repository: https://github.com/daideguchi/evidence-locked-dfir-agent
+- Live demo: https://daideguchi.github.io/evidence-locked-dfir-agent/
+- Architecture: https://raw.githubusercontent.com/daideguchi/evidence-locked-dfir-agent/main/ARCHITECTURE.md
 
 ## Demo Video
 
-Draft silent video:
+Final local demo video:
+
+- `findevil/media/evidence-locked-dfir-agent-demo.mp4`
+
+Compatibility copy:
 
 - `findevil/media/evidence-locked-dfir-agent-demo-draft.mp4`
 
 Regenerate:
 
 ```bash
-cd findevil
-bash scripts/build_demo_video.sh
+bash findevil/scripts/build_demo_video.sh
 ```
 
-## Inspiration
+## The Simple Story
 
-AI can help defenders move faster, but fast summaries are dangerous when they outrun the evidence.
+Security analysts do not need an AI that sounds certain. They need an AI that
+keeps the evidence visible.
 
-This project starts from a defensive rule: an AI investigation assistant should organize, cite, and accelerate, but it should not turn weak evidence into confident claims.
+Evidence-Locked DFIR Agent turns a suspicious email case into a terminal-run
+investigation where every supported conclusion cites an artifact. When the agent
+is tempted to say "malware executed", it blocks that claim because the process
+evidence does not prove it.
+
+That is the core value: faster investigation without unsupported certainty.
 
 ## What It Does
 
-Evidence-Locked DFIR Agent turns a suspicious email investigation into:
-
-- an evidence chain
-- a timeline
-- hypothesis status
-- guardrail events
-- redaction events
-- human containment approval
-- explicit self-correction when a claim is unsupported
-
-## How We Built It
-
-- Shared AgentOps event stream
-- Sanitized DFIR case packet
-- Evidence-locked report generator
-- Static HTML investigation report
-- Guardrail model for unsupported claims and redactions
+- Parses sanitized suspicious-email case files.
+- Builds a claim table for phishing, attachment, download, execution, and containment.
+- Requires evidence IDs for supported claims.
+- Downgrades malware execution to `not_supported_by_current_evidence`.
+- Keeps endpoint isolation behind human approval.
+- Writes a terminal transcript, analyst report, accuracy report, and execution log.
+- Publishes a GitHub Pages review hub.
 
 ## Built With
 
 - Python
 - HTML/CSS
 - JSON / JSONL
-- Sanitized synthetic DFIR events
+- ImageMagick
+- ffmpeg
+- Edge TTS neural narration
+- Sanitized DFIR case artifacts
 
 ## What Is Working
 
 ```text
-verify_ok
-status: ok
-event_count=8
-self_correction_events=1
-redactions=1
+findevil_local_checks_ok
+claims_total=5
+exact_status_accuracy=1.0
+unsupported_claims_blocked=1
+false_confident_supported_claims=0
+claim_boundary=verified_local_sift_ready_no_live_sift_execution_claim
 ```
 
 ## Verification Commands
 
 ```bash
-cd shared-agentops-engine
-python3 scripts/generate_portfolio_artifacts.py
-python3 scripts/verify_artifacts.py
+cd /path/to/evidence-locked-dfir-agent
+bash findevil/scripts/run_findevil_local_checks.sh
 ```
 
-```bash
-cd ../findevil
-python3 scripts/build_dfir_case_report.py
-bash scripts/build_demo_video.sh
-```
+This command runs the shared artifact generator, shared verifier, local DFIR
+agent, report builder, demo-video builder, and output checks.
+
+## Screenshots
+
+- `architecture-diagram.svg`
+- `findevil/media/evidence-locked-dfir-report-full.png`
+- `findevil/media/evidence-locked-terminal-session-full.png`
+- `shared-agentops-engine/media/shared-dashboard-full.png`
 
 ## Demo Script Summary
 
-1. Show the suspicious email case.
-2. Show the evidence chain and event timeline.
-3. Show the unsupported malware-execution claim being corrected.
-4. Show redaction and human containment approval.
-5. Explain why evidence-locking matters for AI-assisted DFIR.
+1. Open the live review hub.
+2. Show the terminal run against packaged case data.
+3. Show the claim table and evidence IDs.
+4. Show the malware-execution claim being blocked as unsupported.
+5. Show the analyst report, accuracy report, and human containment gate.
+6. State the boundary: local verified prototype, no live SIFT claim yet.
 
 ## What Makes It Different
 
-The agent is not rewarded for sounding confident. It is constrained to evidence.
+Many security demos make AI look useful by letting it be confident. This project
+makes AI useful by constraining confidence.
 
-That makes the product safer for incident response, where unsupported certainty can cause real damage.
+The agent does not win by sounding smart. It wins by refusing to overclaim.
 
 ## Challenges
 
-The main challenge was keeping the demo compelling while avoiding unsupported forensic claims. The case is intentionally sanitized and evidence-bound.
+The hardest part was keeping the demo honest. The product needs to feel practical
+for incident responders without pretending to run live forensic tooling that was
+not verified in this environment.
 
 ## Accomplishments
 
-- Built an evidence-locked DFIR report
-- Added self-correction for unsupported claims
-- Added redaction and human approval events
-- Published a clean public repository
+- Added a terminal-executable local agent.
+- Added packaged case data and a ground-truth file.
+- Added claim/evidence output and an accuracy report.
+- Added an execution log for replayability.
+- Added an architecture page and diagram.
+- Rebuilt the demo video with natural English narration and audio.
 
 ## What We Learned
 
-In security work, AI assistance is only useful when evidence stays visible.
+In DFIR, AI assistance is only valuable when analysts can see why a conclusion
+was made and where the evidence stops.
 
 ## What's Next
 
-Connect the workflow to real forensic tooling or SIFT-style artifacts after the platform path is verified.
+- Connect the parser to live SANS SIFT artifacts.
+- Add larger case packets and analyst feedback loops.
+- Add a model-assisted summarizer that can only quote from approved evidence IDs.
+- Add export formats for incident tickets and handoff reports.
 
 ## Claim Boundary
 
-This is a local verified prototype using sanitized evidence events.
-
-It does not claim live forensic tooling or real malware attribution.
+This is a local verified prototype using sanitized evidence events and packaged
+case data. It does not claim live SIFT execution, live forensic tooling, real
+victim data, or real malware attribution.

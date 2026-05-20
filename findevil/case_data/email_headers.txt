@@ -1,0 +1,14 @@
+Evidence-ID: ev-email-001
+From: "Payroll Update" <payroll-notice@example-payroll.invalid>
+To: analyst-user@example-corp.invalid
+Subject: Action required: updated direct deposit form
+Date: Tue, 19 May 2026 12:04:31 +0000
+Message-ID: <20260519120431.8219@example-payroll.invalid>
+Authentication-Results: mail.example-corp.invalid;
+  spf=fail smtp.mailfrom=example-payroll.invalid;
+  dkim=none;
+  dmarc=fail header.from=example-payroll.invalid
+Received: from mailer-17.hosting-lab.invalid (198.51.100.17)
+  by mail.example-corp.invalid with ESMTPS id mail-9217
+Attachment: Direct_Deposit_Update.docm
+Attachment-SHA256: 5f70bf18a0860070161f9f4e5b3f3a8bc84bb5d9d4c2bb2b0b2fd70d29fcb8a1

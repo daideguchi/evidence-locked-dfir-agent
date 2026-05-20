@@ -1,0 +1,30 @@
+{
+  "case_id": "CASE-DFIR-002",
+  "expected_claims": [
+    {
+      "claim_id": "claim-phishing-email",
+      "label": "Suspicious payroll-themed phishing email",
+      "expected_status": "supported"
+    },
+    {
+      "claim_id": "claim-suspicious-attachment",
+      "label": "Attachment is suspicious and should be quarantined for analysis",
+      "expected_status": "supported"
+    },
+    {
+      "claim_id": "claim-browser-download",
+      "label": "The user downloaded the suspicious attachment",
+      "expected_status": "supported"
+    },
+    {
+      "claim_id": "claim-malware-executed",
+      "label": "Malware executed on the endpoint",
+      "expected_status": "not_supported_by_current_evidence"
+    },
+    {
+      "claim_id": "claim-endpoint-isolation",
+      "label": "Endpoint isolation is approved",
+      "expected_status": "human_review_required"
+    }
+  ]
+}

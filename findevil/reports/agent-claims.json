@@ -1,0 +1,51 @@
+[
+  {
+    "claim_id": "claim-phishing-email",
+    "label": "Suspicious payroll-themed phishing email",
+    "status": "supported",
+    "evidence_ids": [
+      "ev-email-001",
+      "ev-net-002"
+    ],
+    "rationale": "Mail authentication failed (spf=fail, dkim=none, dmarc=fail) and domain resolved to the sending host.",
+    "risk_if_wrong": "User trust impact if a benign payroll message is mislabeled."
+  },
+  {
+    "claim_id": "claim-suspicious-attachment",
+    "label": "Attachment is suspicious and should be quarantined for analysis",
+    "status": "supported",
+    "evidence_ids": [
+      "ev-hash-001"
+    ],
+    "rationale": "The attachment hash is present in the training blocklist as a suspicious macro document.",
+    "risk_if_wrong": "False positive quarantine of a business form."
+  },
+  {
+    "claim_id": "claim-browser-download",
+    "label": "The user downloaded the suspicious attachment",
+    "status": "supported",
+    "evidence_ids": [
+      "ev-browser-001"
+    ],
+    "rationale": "Browser timeline includes a download_started event for the document URL.",
+    "risk_if_wrong": "Overstating user interaction may trigger unnecessary escalation."
+  },
+  {
+    "claim_id": "claim-malware-executed",
+    "label": "Malware executed on the endpoint",
+    "status": "not_supported_by_current_evidence",
+    "evidence_ids": [],
+    "rationale": "No Word, macro host, shell, or child process execution appears in the endpoint process listing.",
+    "risk_if_wrong": "Unsupported execution claims can cause unnecessary host isolation and bad incident records."
+  },
+  {
+    "claim_id": "claim-endpoint-isolation",
+    "label": "Endpoint isolation is approved",
+    "status": "human_review_required",
+    "evidence_ids": [
+      "evt-0018"
+    ],
+    "rationale": "The packet supports mailbox containment, but endpoint isolation remains a human decision.",
+    "risk_if_wrong": "Automated isolation could interrupt a user device without sufficient proof."
+  }
+]

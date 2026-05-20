@@ -1,0 +1,5 @@
+{"artifacts": 5, "case_id": "CASE-DFIR-002", "event": "case_loaded"}
+{"claims": ["claim-phishing-email", "claim-suspicious-attachment", "claim-browser-download", "claim-malware-executed", "claim-endpoint-isolation"], "event": "claims_generated"}
+{"event": "evidence_lock_applied", "unsupported_claims_blocked": 1}
+{"event": "accuracy_scored", "exact_status_accuracy": 1.0}
+{"decision": "mailbox_containment_only", "endpoint_isolation": "not_approved", "event": "human_gate"}

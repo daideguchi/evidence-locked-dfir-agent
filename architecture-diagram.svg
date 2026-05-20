@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Evidence-Locked DFIR Agent architecture</title>
+  <desc id="desc">Architecture diagram showing sanitized case data flowing through an evidence parser, evidence lock, and human analyst review outputs.</desc>
+  <rect width="1280" height="720" fill="#f6f7f9"/>
+  <text x="70" y="76" font-family="Arial, sans-serif" font-size="38" font-weight="700" fill="#172033">Evidence-Locked DFIR Agent</text>
+  <text x="70" y="116" font-family="Arial, sans-serif" font-size="19" fill="#566273">AI can accelerate DFIR, but evidence controls the conclusion.</text>
+
+  <g font-family="Arial, sans-serif">
+    <rect x="70" y="170" width="260" height="330" rx="10" fill="#ffffff" stroke="#d8e0e8"/>
+    <text x="98" y="215" font-size="24" font-weight="700" fill="#172033">Case Data</text>
+    <text x="98" y="258" font-size="17" fill="#475467">email headers</text>
+    <text x="98" y="294" font-size="17" fill="#475467">attachment hash</text>
+    <text x="98" y="330" font-size="17" fill="#475467">browser timeline</text>
+    <text x="98" y="366" font-size="17" fill="#475467">endpoint process list</text>
+    <text x="98" y="402" font-size="17" fill="#475467">network observations</text>
+    <rect x="98" y="438" width="174" height="34" rx="17" fill="#eaf0fb"/>
+    <text x="116" y="461" font-size="15" font-weight="700" fill="#264a8a">sanitized packet</text>
+
+    <rect x="430" y="170" width="270" height="330" rx="10" fill="#ffffff" stroke="#d8e0e8"/>
+    <text x="458" y="215" font-size="24" font-weight="700" fill="#172033">Local Agent Run</text>
+    <text x="458" y="258" font-size="17" fill="#475467">parse artifacts</text>
+    <text x="458" y="294" font-size="17" fill="#475467">create claims</text>
+    <text x="458" y="330" font-size="17" fill="#475467">attach evidence IDs</text>
+    <text x="458" y="366" font-size="17" fill="#475467">score against truth</text>
+    <text x="458" y="402" font-size="17" fill="#475467">write terminal transcript</text>
+    <rect x="458" y="438" width="176" height="34" rx="17" fill="#fff3df"/>
+    <text x="476" y="461" font-size="15" font-weight="700" fill="#b54708">SIFT-ready shape</text>
+
+    <rect x="800" y="130" width="330" height="190" rx="10" fill="#ffffff" stroke="#d8e0e8"/>
+    <text x="828" y="174" font-size="24" font-weight="700" fill="#172033">Evidence Lock</text>
+    <text x="828" y="217" font-size="17" fill="#475467">supported only with evidence</text>
+    <text x="828" y="253" font-size="17" fill="#475467">unsupported claims downgraded</text>
+    <text x="828" y="289" font-size="17" fill="#475467">human approval required</text>
+
+    <rect x="800" y="390" width="330" height="190" rx="10" fill="#ffffff" stroke="#d8e0e8"/>
+    <text x="828" y="434" font-size="24" font-weight="700" fill="#172033">Analyst Outputs</text>
+    <text x="828" y="477" font-size="17" fill="#475467">DFIR report</text>
+    <text x="828" y="513" font-size="17" fill="#475467">accuracy report</text>
+    <text x="828" y="549" font-size="17" fill="#475467">execution log + demo page</text>
+
+    <path d="M330 335 C370 335 390 335 430 335" fill="none" stroke="#264a8a" stroke-width="4"/>
+    <path d="M700 285 C748 255 760 228 800 220" fill="none" stroke="#264a8a" stroke-width="4"/>
+    <path d="M700 385 C748 425 760 480 800 492" fill="none" stroke="#264a8a" stroke-width="4"/>
+    <polygon points="425,335 407,325 407,345" fill="#264a8a"/>
+    <polygon points="795,221 776,213 779,234" fill="#264a8a"/>
+    <polygon points="795,491 777,478 775,500" fill="#264a8a"/>
+
+    <rect x="70" y="585" width="1060" height="68" rx="8" fill="#172033"/>
+    <text x="98" y="627" font-size="20" fill="#ffffff">Boundary: verified local prototype with sanitized data; no live SIFT execution or malware attribution claimed.</text>
+  </g>
+</svg>

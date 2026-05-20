@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Terminal Session — Evidence-Locked DFIR Agent</title>
+  <style>
+    body { margin: 0; background: #0b1220; color: #dbeafe; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    main { max-width: 1120px; margin: 0 auto; padding: 28px 18px; }
+    .bar { background: #1f2937; color: #f8fafc; border: 1px solid #334155; border-radius: 8px 8px 0 0; padding: 10px 14px; font-family: Inter, system-ui, sans-serif; }
+    pre { margin: 0; background: #020617; border: 1px solid #334155; border-top: 0; border-radius: 0 0 8px 8px; padding: 18px; white-space: pre-wrap; line-height: 1.5; font-size: 14px; }
+    .note { color: #93c5fd; margin: 0 0 14px; font-family: Inter, system-ui, sans-serif; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="note">Local terminal proof generated from packaged case data. No live SIFT execution is claimed.</p>
+    <div class="bar">CASE-DFIR-002 · evidence-lock terminal run</div>
+    <pre>$ python3 findevil/scripts/run_evidence_locked_agent.py --case CASE-DFIR-002
+[case] CASE-DFIR-002 suspicious payroll email triage
+[mode] evidence-lock: every supported claim must cite evidence IDs
+[parse] email_headers.txt -&gt; ev-email-001
+[parse] attachment_hashes.csv -&gt; ev-hash-001
+[parse] browser_timeline.csv -&gt; ev-browser-001 ev-browser-002
+[parse] endpoint_processes.csv -&gt; ev-proc-001..ev-proc-004
+
+[claim] claim-phishing-email: supported
+        evidence: ev-email-001, ev-net-002
+        why: Mail authentication failed (spf=fail, dkim=none, dmarc=fail) and domain resolved to the sending host.
+[claim] claim-suspicious-attachment: supported
+        evidence: ev-hash-001
+        why: The attachment hash is present in the training blocklist as a suspicious macro document.
+[claim] claim-browser-download: supported
+        evidence: ev-browser-001
+        why: Browser timeline includes a download_started event for the document URL.
+[claim] claim-malware-executed: not_supported_by_current_evidence
+        evidence: no supporting artifact
+        why: No Word, macro host, shell, or child process execution appears in the endpoint process listing.
+[claim] claim-endpoint-isolation: human_review_required
+        evidence: evt-0018
+        why: The packet supports mailbox containment, but endpoint isolation remains a human decision.
+
+[accuracy] exact_status_accuracy=1.0
+[guardrail] false_confident_supported_claims=0
+[decision] mailbox containment requires human approval; endpoint isolation not approved
+[boundary] verified local prototype; no live SIFT execution claimed</pre>
+  </main>
+</body>
+</html>
