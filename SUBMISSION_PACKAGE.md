@@ -14,6 +14,8 @@ AI-assisted incident response where every claim must cite evidence and unsupport
 - Live demo: https://daideguchi.github.io/evidence-locked-dfir-agent/
 - YouTube demo: https://www.youtube.com/watch?v=Z0kuG3GabyY
 - Architecture: https://raw.githubusercontent.com/daideguchi/evidence-locked-dfir-agent/main/ARCHITECTURE.md
+- Architecture PNG: https://raw.githubusercontent.com/daideguchi/evidence-locked-dfir-agent/main/findevil/media/architecture-diagram.png
+- License: MIT
 
 ## Demo Video
 
@@ -66,6 +68,9 @@ That is the core value: faster investigation without unsupported certainty.
 - ffmpeg
 - Edge TTS neural narration
 - Sanitized DFIR case artifacts
+- Claude Code-style local coding agent workflow
+- SANS SIFT Workstation-ready artifact shape
+- Alternative Agentic IDE / deterministic local agent architecture
 
 ## What Is Working
 
@@ -91,6 +96,7 @@ agent, report builder, demo-video builder, and output checks.
 ## Screenshots
 
 - `architecture-diagram.svg`
+- `findevil/media/architecture-diagram.png`
 - `findevil/media/evidence-locked-dfir-report-full.png`
 - `findevil/media/evidence-locked-terminal-session-full.png`
 - `shared-agentops-engine/media/shared-dashboard-full.png`

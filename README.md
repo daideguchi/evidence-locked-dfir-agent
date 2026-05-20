@@ -10,6 +10,8 @@ Submission package: [SUBMISSION_PACKAGE.md](SUBMISSION_PACKAGE.md)
 
 Architecture: [ARCHITECTURE.md](ARCHITECTURE.md)
 
+License: [MIT](LICENSE)
+
 Devpost field copy: [findevil/submission/devpost-submit-manual.md](findevil/submission/devpost-submit-manual.md)
 
 ## Judge Quick Read
@@ -24,7 +26,7 @@ Devpost field copy: [findevil/submission/devpost-submit-manual.md](findevil/subm
 
 ## Demo
 
-![Architecture diagram](architecture-diagram.svg)
+![Architecture diagram](findevil/media/architecture-diagram.png)
 
 ![Evidence-Locked DFIR Agent report](findevil/media/evidence-locked-dfir-report-full.png)
 
@@ -86,7 +88,15 @@ python3 findevil/scripts/run_evidence_locked_agent.py
 - `findevil/prototype/evidence-locked-dfir-report.html` - analyst report.
 - `findevil/prototype/terminal-session.html` - terminal transcript page.
 - `findevil/media/evidence-locked-terminal-session-full.png` - terminal proof screenshot.
+- `findevil/media/architecture-diagram.png` - PNG architecture diagram for Devpost upload/review.
 - `ARCHITECTURE.md` - component and data-flow explanation.
+
+## Submission Fit
+
+- Architecture pattern: Alternative Agentic IDE / deterministic local agent workflow with evidence-lock guardrails.
+- Primary coding agent workflow: Claude Code-style local coding agent development.
+- SIFT boundary: SANS SIFT-ready artifact shape is modeled, but live SANS SIFT execution is not claimed.
+- License: MIT.
 
 ## Hackathon Boundary
 
