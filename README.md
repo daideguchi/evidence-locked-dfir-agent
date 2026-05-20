@@ -4,6 +4,8 @@ AI-assisted incident response where every claim must cite evidence and unsupport
 
 Live demo: https://daideguchi.github.io/evidence-locked-dfir-agent/
 
+YouTube demo: https://www.youtube.com/watch?v=Z0kuG3GabyY
+
 Submission package: [SUBMISSION_PACKAGE.md](SUBMISSION_PACKAGE.md)
 
 Architecture: [ARCHITECTURE.md](ARCHITECTURE.md)
@@ -29,6 +31,7 @@ Architecture: [ARCHITECTURE.md](ARCHITECTURE.md)
 Demo video:
 
 ```text
+https://www.youtube.com/watch?v=Z0kuG3GabyY
 findevil/media/evidence-locked-dfir-agent-demo.mp4
 ```
 

@@ -12,9 +12,14 @@ AI-assisted incident response where every claim must cite evidence and unsupport
 
 - Repository: https://github.com/daideguchi/evidence-locked-dfir-agent
 - Live demo: https://daideguchi.github.io/evidence-locked-dfir-agent/
+- YouTube demo: https://www.youtube.com/watch?v=Z0kuG3GabyY
 - Architecture: https://raw.githubusercontent.com/daideguchi/evidence-locked-dfir-agent/main/ARCHITECTURE.md
 
 ## Demo Video
+
+YouTube demo:
+
+- https://www.youtube.com/watch?v=Z0kuG3GabyY
 
 Final local demo video:
 

@@ -45,6 +45,7 @@ This project shows the safer pattern: AI can suggest, organize, and accelerate, 
 
 ## Current Local Artifacts
 
+- YouTube demo: `https://www.youtube.com/watch?v=Z0kuG3GabyY`
 - `findevil/case_data/`
 - `findevil/scripts/run_evidence_locked_agent.py`
 - `findevil/scripts/run_findevil_local_checks.sh`
