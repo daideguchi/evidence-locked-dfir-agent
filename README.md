@@ -10,6 +10,8 @@ Submission package: [SUBMISSION_PACKAGE.md](SUBMISSION_PACKAGE.md)
 
 Architecture: [ARCHITECTURE.md](ARCHITECTURE.md)
 
+Devpost field copy: [findevil/submission/devpost-submit-manual.md](findevil/submission/devpost-submit-manual.md)
+
 ## Judge Quick Read
 
 **Who is this for?** Security analysts and incident responders.

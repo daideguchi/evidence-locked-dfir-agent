@@ -104,6 +104,12 @@ agent, report builder, demo-video builder, and output checks.
 5. Show the analyst report, accuracy report, and human containment gate.
 6. State the boundary: local verified prototype, no live SIFT claim yet.
 
+## Devpost Field Copy
+
+If Devpost automation hits reCAPTCHA, use:
+
+- `findevil/submission/devpost-submit-manual.md`
+
 ## What Makes It Different
 
 Many security demos make AI look useful by letting it be confident. This project
